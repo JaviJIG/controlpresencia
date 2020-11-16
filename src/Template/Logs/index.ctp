@@ -1,0 +1,61 @@
+<!-- <nav class="large-3 medium-4 columns" id="actions-sidebar">
+    <ul class="side-nav">
+        <li class="heading"><?= __('Acciones') ?></li>
+        <li><?= $this->Html->link(__('New Log'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Buildings'), ['controller' => 'Buildings', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Building'), ['controller' => 'Buildings', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Rooms'), ['controller' => 'Rooms', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Room'), ['controller' => 'Rooms', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Staffs'), ['controller' => 'Staffs', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Staff'), ['controller' => 'Staffs', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Actions'), ['controller' => 'Actions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Action'), ['controller' => 'Actions', 'action' => 'add']) ?></li>
+    </ul>
+</nav> -->
+
+<div class="logs index large-12 medium-12 columns content">
+    <h3><?= __('Logs') ?></h3>
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col"><?= $this->Paginator->sort('building_id', 'Edificio') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('room_id', 'Sala') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('staff_id', 'Personal') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('action_id', 'Accion') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('latitude', 'Latitud') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('longitude', 'Longitud') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('timestamp', 'Hora Accion') ?></th>
+                <th scope="col" class="actions"><?= __('Acciones') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($logs as $log): ?>
+            <tr>
+                <td><?= $log->has('building') ? $this->Html->link($log->building->name, ['controller' => 'Buildings', 'action' => 'view', $log->building->id]) : '' ?></td>
+                <td><?= $log->has('room') ? $this->Html->link($log->room->name, ['controller' => 'Rooms', 'action' => 'view', $log->room->id]) : '' ?></td>
+                <td><?= $log->has('staff') ? $this->Html->link($log->staff->name, ['controller' => 'Staffs', 'action' => 'view', $log->staff->id]) : '' ?></td>
+                <td><?= $log->has('action') ? $this->Html->link($log->action->name, ['controller' => 'Actions', 'action' => 'view', $log->action->id]) : '' ?></td>
+                <td><?= h($log->latitude) ?></td>
+                <td><?= h($log->longitude) ?></td>
+                <td><?= h($log->timestamp->i18nFormat('dd-MM-YYYY HH:mm')) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $log->id]) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $log->id]) ?>
+                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $log->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $log->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->first('<< ' . __('primera')) ?>
+            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('siguiente') . ' >') ?>
+            <?= $this->Paginator->last(__('última') . ' >>') ?>
+        </ul>
+        <p><?= $this->Paginator->counter(['format' => __('Página {{page}} de {{pages}}, viendo {{current}} de las {{count}}')]) ?></p>
+    </div>
+</div>
+
