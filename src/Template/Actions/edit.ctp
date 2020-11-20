@@ -21,11 +21,11 @@
 <div class="actions form large-9 medium-8 columns content">
     <?= $this->Form->create($action) ?>
     <fieldset>
-        <legend><?= __('Edit Action') ?></legend>
+        <legend><?= __('Editar Acción') ?></legend>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Actualizar')) ?>
     <?= $this->Form->end() ?>
 </div>

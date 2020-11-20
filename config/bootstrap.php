@@ -201,3 +201,11 @@ Type::build('timestamp')
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
+
+if (strpos($_SERVER['HTTP_HOST'], 'controlpresencia') !== false) {
+    Configure::write('Url.Ajax', '/');
+    Configure::write('Url.Base', 'https://controlpresencia.jig.es/');
+}else {
+    Configure::write('Url.Ajax', '/controlpresencia/');
+    Configure::write('Url.Base', 'https://192.168.14.38/controlpresencia/');
+}

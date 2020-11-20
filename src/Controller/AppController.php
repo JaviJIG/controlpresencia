@@ -68,7 +68,9 @@ class AppController extends Controller
     {
         $userName = $this->Auth->user('username');
         $userRole = $this->Auth->user('role');
-        $this->set(compact('userName', 'userRole'));
+        $baseUrl = Configure::read('Url.Base');
+        $ajaxUrl = Configure::read('Url.Ajax');
+        $this->set(compact('userName', 'userRole', 'baseUrl', 'ajaxUrl'));
         if ($this->Auth->user('role') == 'admin') {
             $this->Auth->allow([]);
         }
@@ -76,5 +78,17 @@ class AppController extends Controller
 
     public function generaUrl(){
         return uniqid();
+    }
+
+    /**
+     * Convierte una fecha dd/mm/yyyy al formato de sql
+     */
+    public function dayAsSql($fecha) {
+		$mifecha = explode("/", $fecha);
+		if (isset($mifecha[0]) && isset($mifecha[1]) && isset($mifecha[2])){
+			return $mifecha[2]."-".$mifecha[1]."-".$mifecha[0];
+		} else {
+			return null;
+		}
     }
 }

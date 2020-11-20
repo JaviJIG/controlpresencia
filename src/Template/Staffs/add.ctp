@@ -15,14 +15,14 @@
 <div class="staffs form large-9 medium-8 columns content">
     <?= $this->Form->create($staff) ?>
     <fieldset>
-        <legend><?= __('Add Staff') ?></legend>
+        <legend><?= __('Añadir personal') ?></legend>
         <?php
-            echo $this->Form->control('code');
-            echo $this->Form->control('name');
-            echo $this->Form->control('surnames');
-            echo $this->Form->control('email');
+            // echo $this->Form->control('code', ['label' => 'Código']);
+            echo $this->Form->control('name', ['label' => 'Nombre']);
+            echo $this->Form->control('surnames', ['label' => 'Apellidos']);
+            echo $this->Form->control('email', ['label' => 'Correo electrónico']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Guardar')) ?>
     <?= $this->Form->end() ?>
 </div>

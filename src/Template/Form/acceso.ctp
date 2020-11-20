@@ -44,38 +44,50 @@ body {
 
     <?= $this->Form->input('latitude', ['type' => 'hidden']) ?>
     <?= $this->Form->input('longitude', ['type' => 'hidden']) ?>
+    <?= $this->Form->input('brand', ['type' => 'hidden']) ?>
+    <?= $this->Form->input('os', ['type' => 'hidden']) ?>
+    <?= $this->Form->input('navigator', ['type' => 'hidden']) ?>
+
     <?= $this->Form->end() ?>
 
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js" integrity="sha512-hSVyGuXBHmZy+A+P21DRUAuc7UTfcqc0geieb/H1ZmqiJAoDTfzFYIOBAMTcFUWU/PwLPEoREYG/77ckPB6oSw==" crossorigin="anonymous"></script>
 <script>
 // llama la función miUbicacion cuando la página este cargada
 window.onload = miUbicacion;
 $('.actividades').hide();
+
+var detector = new MobileDetect(window.navigator.userAgent)
+
+$('#brand').val(detector.mobile());
+$('#os').val(detector.os());
+$('#navigator').val(detector.userAgent());
+
 
 function miUbicacion(){
     //Si los servicios de geolocalización están disponibles
     if(navigator.geolocation){
         // Para obtener la ubicación actual llama getCurrentPosition.
         navigator.geolocation.getCurrentPosition( muestraMiUbicacion );
-    }else{ //de lo contrario
-        alert("Los servicios de geolocalizaci\363n  no est\341n disponibles");
     }
+    // else{ //de lo contrario
+    //     alert("Los servicios de geolocalizaci\363n  no est\341n disponibles");
+    // }
 }
 function muestraMiUbicacion(posicion){
     var latitud = posicion.coords.latitude;
     var longitud = posicion.coords.longitude;
     $('#latitude').val(latitud);
     $('#longitude').val(longitud);
-
 }
 
 $('#boton-codigo').click(function() {
     miUbicacion();
+    var url = "<?php echo $ajaxUrl ?>";
     request = $.ajax({
         headers: {'X-CSRF-Token': <?= json_encode($csrf); ?>},
         type: "POST",
-        url: '/controlpresencia/form/getStaff',
+        url: url + 'form/getStaff',
         data: {codigo:$('#codigo').val()}
     });
     request.done(function(data) {

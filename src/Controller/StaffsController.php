@@ -56,13 +56,15 @@ class StaffsController extends AppController
     {
         $staff = $this->Staffs->newEntity();
         if ($this->request->is('post')) {
-            $staff = $this->Staffs->patchEntity($staff, $this->request->getData());
+            $data = $this->request->getData();
+            $data['code'] = rand(100000,999999);
+            $staff = $this->Staffs->patchEntity($staff, $data);
             if ($this->Staffs->save($staff)) {
-                $this->Flash->success(__('The staff has been saved.'));
+                $this->Flash->success(__('El personal se ha generado correctamente.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The staff could not be saved. Please, try again.'));
+            $this->Flash->error(__('No se ha podido generar el personal, intentelo de nuevo.'));
         }
         $this->set(compact('staff'));
     }

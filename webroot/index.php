@@ -19,6 +19,7 @@
 
 // Check platform requirements
 require dirname(__DIR__) . '/config/requirements.php';
+date_default_timezone_set('Europe/Madrid');
 
 // For built-in server
 if (PHP_SAPI === 'cli-server') {

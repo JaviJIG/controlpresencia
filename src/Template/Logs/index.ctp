@@ -25,6 +25,10 @@
                 <th scope="col"><?= $this->Paginator->sort('latitude', 'Latitud') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('longitude', 'Longitud') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('timestamp', 'Hora Accion') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('brand', 'Tel. Marca') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('os', 'Firmware') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('navigator', 'Navegador') ?></th>
+
                 <th scope="col" class="actions"><?= __('Acciones') ?></th>
             </tr>
         </thead>
@@ -37,11 +41,14 @@
                 <td><?= $log->has('action') ? $this->Html->link($log->action->name, ['controller' => 'Actions', 'action' => 'view', $log->action->id]) : '' ?></td>
                 <td><?= h($log->latitude) ?></td>
                 <td><?= h($log->longitude) ?></td>
-                <td><?= h($log->timestamp->i18nFormat('dd-MM-YYYY HH:mm')) ?></td>
+                <td><?= h($log->timestamp->i18nFormat('dd-MM-YYYY')) ?><br><?= h($log->timestamp->i18nFormat('HH:mm')) ?></td>
+                <td><?= h($log->brand) ?></td>
+                <td><?= h($log->os) ?></td>
+                <td><?= h($log->navigator) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $log->id]) ?>
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $log->id]) ?>
-                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $log->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $log->id)]) ?>
+                    <?= $this->Html->link('<span class="fa fa-eye"></span><span class="sr-only">' . __('Ver') . '</span>', ['action' => 'view', $log->id], ['escape' => false]) ?>
+                    <?= $this->Html->link('<span class="fa fa-pen"></span><span class="sr-only">' . __('Editar') . '</span>', ['action' => 'edit', $log->id], ['escape' => false]) ?>
+                    <?= $this->Form->postLink('<span class="fa fa-trash"></span><span class="sr-only">' . __('Eliminar') . '</span>', ['action' => 'delete', $log->id], ['escape' => false, 'confirm' => __('¿Está seguro de que desea eliminar {0}?', $log->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

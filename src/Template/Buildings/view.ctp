@@ -18,59 +18,58 @@
     </ul>
 </nav>
 <div class="buildings view large-9 medium-8 columns content">
-    <h3><?= h($building->id) ?></h3>
+    <h3><?= h($building->name) ?></h3>
     <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($building->name) ?></td>
-        </tr>
         <tr>
             <th scope="row"><?= __('Url') ?></th>
             <td><?= h($building->url) ?></td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($building->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($building->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($building->modified) ?></td>
-        </tr>
     </table>
     <div style="text-align: right">
-    <?= $this->Form->create('Buildings', array('action' => 'updateUrl')) ?>
-        <?= $this->Form->input('room_id', ['value' => $building->id,'type' => 'hidden']) ?>
-        <?= $this->Form->submit('Actualizar URL') ?>        
-    <?= $this->Form->end() ?>
+        <?= $this->Form->create('Buildings', array('action' => 'updateUrl')) ?>
+            <?= $this->Form->input('room_id', ['value' => $building->id,'type' => 'hidden']) ?>
+            <?= $this->Form->submit('Actualizar URL') ?>        
+        <?= $this->Form->end() ?>
     </div>
     <div class="related">
         <h4><?= __('Related Logs') ?></h4>
         <?php if (!empty($building->logs)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Building Id') ?></th>
-                <th scope="col"><?= __('Room Id') ?></th>
-                <th scope="col"><?= __('Staff Id') ?></th>
-                <th scope="col"><?= __('Action Id') ?></th>
-                <th scope="col"><?= __('Timestamp') ?></th>
+                <th scope="col"><?= __('Edificio') ?></th>
+                <th scope="col"><?= __('Sala') ?></th>
+                <th scope="col"><?= __('Personal') ?></th>
+                <th scope="col"><?= __('Accion') ?></th>
+                <th scope="col"><?= __('Fecha') ?></th>
+                <th scope="col"><?= __('Latitud') ?></th>
+                <th scope="col"><?= __('Longitud') ?></th>
+                <th scope="col"><?= __('Marca Tel') ?></th>
+                <th scope="col"><?= __('Firmware') ?></th>
+                <th scope="col"><?= __('Navegador') ?></th>
+
+
             </tr>
             <?php foreach ($building->logs as $logs): ?>
+            <?php //debug($logs) ?>
             <tr>
-                <td><?= h($logs->building_id) ?></td>
-                <td><?= h($logs->room_id) ?></td>
-                <td><?= h($logs->staff_id) ?></td>
-                <td><?= h($logs->action_id) ?></td>
+                <td><?= h($logs->building->name) ?></td>
+                <td><?= isset($logs->room->name) ? h($logs->room->name): '' ?></td>
+                <td><?= h($logs->staff->name). ' ' . h($logs->staff->surnames) ?></td>
+                <td><?= h($logs->action->name) ?></td>
                 <td><?= h($logs->timestamp) ?></td>
+                <td><?= h($logs->latitude) ?></td>
+                <td><?= h($logs->longitude) ?></td>
+                <td><?= h($logs->brand) ?></td>
+                <td><?= h($logs->os) ?></td>
+                <td><?= h($logs->navigator) ?></td>
+
+
             </tr>
             <?php endforeach; ?>
         </table>
         <?php endif; ?>
     </div>
-    <div class="related">
+    <!-- <div class="related">
         <h4><?= __('Related Rooms') ?></h4>
         <?php if (!empty($building->rooms)): ?>
         <table cellpadding="0" cellspacing="0">
@@ -88,9 +87,9 @@
             <?php endforeach; ?>
         </table>
         <?php endif; ?>
-    </div>
+    </div> -->
     <div style="text-align: center">
         <h3>Imagen QR de <?= $building->name ?></h3>
-        <img src="http://chart.apis.google.com/chart?chl=https://192.168.14.38/controlpresencia/form/acceso?building=<?= $building->url ?>&cht=qr&choe=UTF-8&chs=500x500&chld=" alt="<?= $building->name ?>">
+        <img src="http://chart.apis.google.com/chart?chl=<?= $baseUrl ?>form/acceso?building=<?= $building->url ?>&cht=qr&choe=UTF-8&chs=500x500&chld=" alt="<?= $building->name ?>">
     </div>
 </div>

@@ -16,22 +16,14 @@
     </ul>
 </nav>
 <div class="staffs view large-9 medium-8 columns content">
-    <h3><?= h($staff->name) ?></h3>
+    <h3><?= h($staff->name). ' '. h($staff->surnames) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Code') ?></th>
+            <th scope="row"><?= __('Codigo trabajador') ?></th>
             <td><?= h($staff->code) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($staff->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Surnames') ?></th>
-            <td><?= h($staff->surnames) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
+            <th scope="row"><?= __('Correo electrónico') ?></th>
             <td><?= h($staff->email) ?></td>
         </tr>
     </table>

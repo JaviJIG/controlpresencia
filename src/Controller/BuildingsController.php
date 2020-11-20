@@ -32,9 +32,9 @@ class BuildingsController extends AppController
      */
     public function view($id = null)
     {
-        $building = $this->Buildings->get($id, [
-            'contain' => ['Logs', 'Rooms'],
-        ]);
+        $building = $this->Buildings->get($id, ['contain' => [
+            'Logs' => ['Buildings', 'Rooms', 'Staffs', 'Actions', 'sort' => ['Logs.timestamp' => 'DESC']]]
+            ]);
 
         $this->set('building', $building);
     }
@@ -51,11 +51,11 @@ class BuildingsController extends AppController
             $building = $this->Buildings->patchEntity($building, $this->request->getData());
             $building['url'] = $this->generaUrl();
             if ($this->Buildings->save($building)) {
-                $this->Flash->success(__('The building has been saved.'));
+                $this->Flash->success(__('El nuevo edificio ha sido guardado.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The building could not be saved. Please, try again.'));
+            $this->Flash->error(__('No se ha podido guardar el edificio, pruebe de nuevo.'));
         }
         $this->set(compact('building'));
     }
@@ -75,11 +75,11 @@ class BuildingsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $building = $this->Buildings->patchEntity($building, $this->request->getData());
             if ($this->Buildings->save($building)) {
-                $this->Flash->success(__('The building has been saved.'));
+                $this->Flash->success(__('El edificio ha sido guardado.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The building could not be saved. Please, try again.'));
+            $this->Flash->error(__('No se ha podido guardar el edificio, pruebe de nuevo.'));
         }
         $this->set(compact('building'));
     }
@@ -96,7 +96,7 @@ class BuildingsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $building = $this->Buildings->get($id);
         if ($this->Buildings->delete($building)) {
-            $this->Flash->success(__('The building has been deleted.'));
+            $this->Flash->success(__('El edificio ha sido eliminado.'));
         } else {
             $this->Flash->error(__('The building could not be deleted. Please, try again.'));
         }

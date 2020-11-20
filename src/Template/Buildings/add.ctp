@@ -17,11 +17,11 @@
 <div class="buildings form large-9 medium-8 columns content">
     <?= $this->Form->create($building) ?>
     <fieldset>
-        <legend><?= __('Add Building') ?></legend>
+        <legend><?= __('Nuevo edificio') ?></legend>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Guardar')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -17,16 +17,19 @@
 <div class="rooms form large-9 medium-8 columns content">
     <?= $this->Form->create($room) ?>
     <fieldset>
-        <legend><?= __('Add Room') ?></legend>
-        <select name="building_id" id="building-id">
-            <?php foreach ($buildings as $building) : ?>
-                <option value="<?= $building->id ?>"><?= $building->name ?></option>
-            <?php endforeach ?>
-        </select>
+        <legend><?= __('Añadir sala') ?></legend>
+        <div class="input select required">
+            <label for="building-id">Edificio</label>
+            <select name="building_id" id="building-id">
+                <?php foreach ($buildings as $building) : ?>
+                    <option value="<?= $building->id ?>"><?= $building->name ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Guardar')) ?>
     <?= $this->Form->end() ?>
 </div>

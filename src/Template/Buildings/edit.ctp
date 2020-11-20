@@ -23,12 +23,12 @@
 <div class="buildings form large-9 medium-8 columns content">
     <?= $this->Form->create($building) ?>
     <fieldset>
-        <legend><?= __('Edit Building') ?></legend>
+        <legend><?= __('Editar edificio') ?></legend>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
             echo $this->Form->control('url');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Actualizar')) ?>
     <?= $this->Form->end() ?>
 </div>

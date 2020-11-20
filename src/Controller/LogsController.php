@@ -21,9 +21,12 @@ class LogsController extends AppController
     {
         $this->paginate = [
             'contain' => ['Buildings', 'Rooms', 'Staffs', 'Actions'],
+            
         ];
+        $this->paginate['order'] = ['timestamp' => 'DESC'];
         $logs = $this->paginate($this->Logs);
         $this->set(compact('logs'));
+
     }
 
     /**

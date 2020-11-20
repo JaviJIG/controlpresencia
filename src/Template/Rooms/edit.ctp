@@ -23,13 +23,20 @@
 <div class="rooms form large-9 medium-8 columns content">
     <?= $this->Form->create($room) ?>
     <fieldset>
-        <legend><?= __('Edit Room') ?></legend>
+        <legend><?= __('Editar sala') ?></legend>
+        <div class="input select required">
+            <label for="building-id">Edificio</label>
+            <select name="building_id" id="building-id">
+                <?php foreach ($buildings as $building) : ?>
+                    <option value="<?= $building->id ?>"><?= $building->name ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
         <?php
-            echo $this->Form->control('building_id', ['options' => $buildings]);
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
             echo $this->Form->control('url');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Actualziar')) ?>
     <?= $this->Form->end() ?>
 </div>

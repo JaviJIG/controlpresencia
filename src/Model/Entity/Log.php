@@ -45,5 +45,8 @@ class Log extends Entity
         'action' => true,
         'latitude' => true,
         'longitude' => true,
+        'os' => true,
+        'brand' => true,
+        'navigator' => true,
     ];
 }

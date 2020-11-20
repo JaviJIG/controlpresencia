@@ -37,7 +37,7 @@ class RoomsController extends AppController
     public function view($id = null)
     {
         $room = $this->Rooms->get($id, [
-            'contain' => ['Buildings', 'Logs'],
+            'contain' => ['Buildings', 'Logs'  => ['Buildings', 'Rooms', 'Staffs', 'Actions', 'sort' => ['Logs.timestamp' => 'DESC']]],
         ]);
 
         $this->set('room', $room);
@@ -55,11 +55,11 @@ class RoomsController extends AppController
             $room = $this->Rooms->patchEntity($room, $this->request->getData());
             $room['url'] = $this->generaUrl();
             if ($this->Rooms->save($room)) {
-                $this->Flash->success(__('The room has been saved.'));
+                $this->Flash->success(__('La sala ha sido guardada.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The room could not be saved. Please, try again.'));
+            $this->Flash->error(__('no se ha podido guardar la sala, intentelo de nuevo.'));
         }
         $buildings = $this->Rooms->Buildings->find()->select(['id', 'name']);
         $this->set(compact('room', 'buildings'));
@@ -80,13 +80,13 @@ class RoomsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $room = $this->Rooms->patchEntity($room, $this->request->getData());
             if ($this->Rooms->save($room)) {
-                $this->Flash->success(__('The room has been saved.'));
+                $this->Flash->success(__('La sala ha sido guardada.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The room could not be saved. Please, try again.'));
+            $this->Flash->error(__('La sala no se ha podido guardar, intentelo de nuevo.'));
         }
-        $buildings = $this->Rooms->Buildings->find('list', ['limit' => 200]);
+        $buildings = $this->Rooms->Buildings->find()->select(['id', 'name']);
         $this->set(compact('room', 'buildings'));
     }
 
@@ -102,9 +102,9 @@ class RoomsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $room = $this->Rooms->get($id);
         if ($this->Rooms->delete($room)) {
-            $this->Flash->success(__('The room has been deleted.'));
+            $this->Flash->success(__('La sala ha sido eliminada.'));
         } else {
-            $this->Flash->error(__('The room could not be deleted. Please, try again.'));
+            $this->Flash->error(__('No se ha podido eliminar la sala, intentelo de nuevo.'));
         }
 
         return $this->redirect(['action' => 'index']);

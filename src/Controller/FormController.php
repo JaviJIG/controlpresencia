@@ -89,11 +89,10 @@ class FormController extends AppController
         $log = $this->Logs->newEntity();
         if ($this->request->is('post') && $data == null) {
             $data = $this->request->getData();
-            $data['timestamp'] = date('Y-m-d H:i:s');
+            $data['timestamp'] = date('Y-m-d H:i:s', strtotime('+1 hours'));
             $log = $this->Logs->patchEntity($log, $data);
             //debug($log); die;
             if ($this->Logs->save($log)) {
-                // $this->Flash->success(__('The log has been saved.'));
                 $this->redirect(['action' => 'registerLog', json_encode($data)]);
             }
             else {
@@ -109,13 +108,16 @@ class FormController extends AppController
             $this->loadModel('Staffs');
             $this->loadModel('Actions');
             $building = $this->Buildings->get($data['building_id'])->name;
-            $room = $this->Rooms->get($data['room_id'])->name;
+            if (isset($data['room_id'])) {
+                $room = $this->Rooms->get($data['room_id'])->name;
+                $this->set(compact('room'));
+            }
             $staffName = $this->Staffs->get($data['staff_id'])->name;
             $staffSurnames = $this->Staffs->get($data['staff_id'])->surnames;
             $action = $this->Actions->get($data['action_id'])->name;
             $fecha = $data['timestamp'];
             $this->viewBuilder()->setLayout('front');
-            $this->set(compact('building','room','staffName', 'staffSurnames', 'action', 'fecha'));
+            $this->set(compact('building','staffName', 'staffSurnames', 'action', 'fecha'));
             $this->render('success');
         }
     }

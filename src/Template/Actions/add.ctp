@@ -15,11 +15,11 @@
 <div class="actions form large-9 medium-8 columns content">
     <?= $this->Form->create($action) ?>
     <fieldset>
-        <legend><?= __('Add Action') ?></legend>
+        <legend><?= __('Nueva acción') ?></legend>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['label' => 'Nombre']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Guardar')) ?>
     <?= $this->Form->end() ?>
 </div>

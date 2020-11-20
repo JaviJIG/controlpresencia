@@ -14,6 +14,7 @@ $cakeDescription = 'Control de Presencia';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <?= $this->fetch('meta') ?>
@@ -37,6 +38,7 @@ $cakeDescription = 'Control de Presencia';
                     <li><?= $this->Html->Link('Personal', ['controller' => 'staffs']) ?></li>
                     <li><?= $this->Html->Link('Acciones', ['controller' => 'actions']) ?></li>
                     <li><?= $this->Html->Link('Logs', ['controller' => 'logs']) ?></li>
+                    <li><?= $this->Html->Link('Exportar', ['controller' => 'exports']) ?></li>
                     <li><?= $this->Html->Link('Añadir admin', ['controller' => 'users', 'action' => 'add']) ?></li>
                     <li><?= $this->Html->Link('Salir', ['controller' => 'users', 'action' => 'logout']) ?></li>
                 </ul>
