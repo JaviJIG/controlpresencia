@@ -32,9 +32,11 @@
                 <td><?= h($staff->code) ?></td>
                 <td><?= h($staff->email) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $staff->id]) ?>
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $staff->id]) ?>
-                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $staff->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $staff->name.' '.$staff->surnames)]) ?>
+                    <?= $this->Html->link('<span class="fa fa-eye"></span><span class="sr-only">' . __('Ver') . '</span>', ['action' => 'view', $staff->id], ['escape' => false]) ?>
+                    <?php if ($userRole == 'admin'): ?>
+                        <?= $this->Html->link('<span class="fa fa-pen"></span><span class="sr-only">' . __('Editar') . '</span>', ['action' => 'edit', $staff->id], ['escape' => false]) ?>
+                        <?= $this->Form->postLink('<span class="fa fa-trash"></span><span class="sr-only">' . __('Eliminar') . '</span>', ['action' => 'delete', $staff->id], ['escape' => false, 'confirm' => __('¿Está seguro de que desea eliminar {0}?', $staff->name.' '.$staff->surnames)]) ?>
+                    <?php endif ?>
                 </td>
             </tr>
             <?php endforeach; ?>

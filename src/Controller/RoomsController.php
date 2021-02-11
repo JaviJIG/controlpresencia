@@ -12,6 +12,15 @@ use App\Controller\AppController;
  */
 class RoomsController extends AppController
 {
+
+    public function isAuthorized($user)
+    {
+        if ($user['role'] == 'user' && in_array($this->request->getParam('action'), ['index', 'view'])) {
+            return true;
+        }
+        return parent::isAuthorized($user);
+    }
+
     /**
      * Index method
      *
@@ -19,12 +28,41 @@ class RoomsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Buildings'],
-        ];
-        $rooms = $this->paginate($this->Rooms);
+        $userRole = $this->Auth->user('role');
+        if($userRole == 'admin') {
+            $this->paginate = [
+                'contain' => ['Buildings'],
+            ];
+            $rooms = $this->paginate($this->Rooms);
+    
+            $this->set(compact('rooms'));
+        }
+        if($userRole == 'user') {
+            $room = $this->Rooms->find('all')
+            ->join([
+                'Buildings' => [
+                    'table' => 'buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'Rooms.building_id = Buildings.id',
+                ],
+                'UserBuilding' => [
+                    'table' => 'user_buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'UserBuilding.building_id = Buildings.id',
+                ],
+            ])
+            ->where([
+                'UserBuilding.user_id' => $this->Auth->user('id')
+            ]);
+            $this->paginate = [
+                'contain' => ['Buildings'],
+            ];
+            $rooms = $this->paginate($room);
+            $this->set(compact('rooms'));
+        }
 
-        $this->set(compact('rooms'));
+
+
     }
 
     /**
@@ -36,6 +74,29 @@ class RoomsController extends AppController
      */
     public function view($id = null)
     {
+        $puedeVer = $this->Rooms->find('all')
+            ->join([
+                'Buildings' => [
+                    'table' => 'buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'Rooms.building_id = Buildings.id',
+                ],
+                'UserBuilding' => [
+                    'table' => 'user_buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'UserBuilding.building_id = Buildings.id',
+                ]
+            ])
+            ->where([
+                'UserBuilding.user_id' => $this->Auth->user('id'),
+                'Rooms.id' => $id
+            ])
+            ->toArray();
+        if (empty($puedeVer) && $this->Auth->user('role') == 'user') {
+            $this->Flash->error(__('No puede acceder a ver la sala, por favor, elija los que tiene disponibles en la siguiente lista.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
         $room = $this->Rooms->get($id, [
             'contain' => ['Buildings', 'Logs'  => ['Buildings', 'Rooms', 'Staffs', 'Actions', 'sort' => ['Logs.timestamp' => 'DESC']]],
         ]);

@@ -59,6 +59,8 @@ class StaffsController extends AppController
             $data = $this->request->getData();
             $data['code'] = rand(100000,999999);
             $staff = $this->Staffs->patchEntity($staff, $data);
+            // debug($staff); 
+            // debug($this->Staffs->save($staff)); die;
             if ($this->Staffs->save($staff)) {
                 $this->Flash->success(__('El personal se ha generado correctamente.'));
 

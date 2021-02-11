@@ -26,9 +26,9 @@
             <tr>
                 <td><?= h($action->name) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $action->id]) ?>
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $action->id]) ?>
-                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $action->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $action->name)]) ?>
+                    <?= $this->Html->link('<span class="fa fa-eye"></span><span class="sr-only">' . __('Ver') . '</span>', ['action' => 'view', $action->id], ['escape' => false]) ?>
+                    <?= $this->Html->link('<span class="fa fa-pen"></span><span class="sr-only">' . __('Editar') . '</span>', ['action' => 'edit', $action->id], ['escape' => false]) ?>
+                    <?= $this->Form->postLink('<span class="fa fa-trash"></span><span class="sr-only">' . __('Eliminar') . '</span>', ['action' => 'delete', $action->id], ['escape' => false, 'confirm' => __('¿Está seguro de que desea eliminar {0}?', $action->name)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

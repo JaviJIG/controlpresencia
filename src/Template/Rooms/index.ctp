@@ -7,7 +7,9 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Acciones') ?></li>
-        <li><?= $this->Html->link(__('Nueva Sala'), ['action' => 'add']) ?></li>
+        <?php if ($userRole == 'admin'): ?>
+            <li><?= $this->Html->link(__('Nueva Sala'), ['action' => 'add']) ?></li>
+        <?php endif ?>
         <!-- <li><?= $this->Html->link(__('List Buildings'), ['controller' => 'Buildings', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Building'), ['controller' => 'Buildings', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Logs'), ['controller' => 'Logs', 'action' => 'index']) ?></li>
@@ -32,9 +34,11 @@
                 <td><?= $room->has('building') ? $this->Html->link($room->building->name, ['controller' => 'Buildings', 'action' => 'view', $room->building->id]) : '' ?></td>
                 <td><?= h($room->url) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $room->id]) ?>
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $room->id]) ?>
-                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $room->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $room->name)]) ?>
+                    <?= $this->Html->link('<span class="fa fa-eye"></span><span class="sr-only">' . __('Ver') . '</span>', ['action' => 'view', $room->id], ['escape' => false]) ?>
+                    <?php if ($userRole == 'admin'): ?>
+                        <?= $this->Html->link('<span class="fa fa-pen"></span><span class="sr-only">' . __('Editar') . '</span>', ['action' => 'edit', $room->id], ['escape' => false]) ?>
+                        <?= $this->Form->postLink('<span class="fa fa-trash"></span><span class="sr-only">' . __('Eliminar') . '</span>', ['action' => 'delete', $room->id], ['escape' => false, 'confirm' => __('¿Está seguro de que desea eliminar {0}?', $room->name)]) ?>
+                    <?php endif ?>
                 </td>
             </tr>
             <?php endforeach; ?>

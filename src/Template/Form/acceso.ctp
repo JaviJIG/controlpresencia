@@ -5,7 +5,8 @@ body {
 </style>
 
 <div class="container-fluid" style="margin-top:2em">
-    <h3 class="text-center">Control de Presencia</h3><hr/>
+    <h3 class="text-center"><i class="fa fa-user"></i> CONTROL DE PRESENCIA</h3>
+    <hr/>
     <?= $this->Form->create('Form', array('action' => 'registerLog')); ?>
     <?php if (isset($roomName)): ?>
         <p><strong>Edificio: </strong><?= $buildingName ?><br>
@@ -28,7 +29,7 @@ body {
         </div>
     </div>
 
-    <div class="form-group actividades">
+    <div class="form-group actividades" style="display: none;">
         <label for="exampleFormControlSelect1">Seleccione la actividad que va a realizar</label>
         <select class="form-control" name="action_id" id="exampleFormControlSelect1">
             <?php foreach ($acciones as $key => $value): ?>
@@ -51,17 +52,15 @@ body {
     <?= $this->Form->end() ?>
 
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js" integrity="sha512-hSVyGuXBHmZy+A+P21DRUAuc7UTfcqc0geieb/H1ZmqiJAoDTfzFYIOBAMTcFUWU/PwLPEoREYG/77ckPB6oSw==" crossorigin="anonymous"></script>
+<?= $this->Html->script('platform'); ?>
 <script>
 // llama la función miUbicacion cuando la página este cargada
 window.onload = miUbicacion;
 $('.actividades').hide();
 
-var detector = new MobileDetect(window.navigator.userAgent)
-
-$('#brand').val(detector.mobile());
-$('#os').val(detector.os());
-$('#navigator').val(detector.userAgent());
+$('#brand').val(platform.product+' '+platform.manufacturer);
+$('#os').val(platform.os.family+' '+platform.os.version);
+$('#navigator').val(platform.name);
 
 
 function miUbicacion(){

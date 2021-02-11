@@ -7,10 +7,13 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Acciones') ?></li>
-        <li><?= $this->Html->link(__('Editar sala'), ['action' => 'edit', $room->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Eliminar sala'), ['action' => 'delete', $room->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $room->name)]) ?> </li>
+        <?php if ($userRole == 'admin') : ?>
+            <li><?= $this->Html->link(__('Editar sala'), ['action' => 'edit', $room->id]) ?> </li>
+            <li><?= $this->Form->postLink(__('Eliminar sala'), ['action' => 'delete', $room->id], ['confirm' => __('¿Está seguro de que desea eliminar {0}?', $room->name)]) ?> </li>
+            <li><?= $this->Html->link(__('Nueva sala'), ['action' => 'add']) ?> </li>
+        <?php endif ?>
+
         <li><?= $this->Html->link(__('Ver salas'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Nueva sala'), ['action' => 'add']) ?> </li>
         <!-- <li><?= $this->Html->link(__('List Buildings'), ['controller' => 'Buildings', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Building'), ['controller' => 'Buildings', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Logs'), ['controller' => 'Logs', 'action' => 'index']) ?> </li>
@@ -26,15 +29,17 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Url') ?></th>
-            <td><?= h($room->url) ?></td>
+            <td><?= h($room->url) ?> </td>
         </tr>
     </table>
-    <div style="text-align: right">
-    <?= $this->Form->create('Rooms', array('action' => 'updateUrl')) ?>
-        <?= $this->Form->input('room_id', ['value' => $room->id,'type' => 'hidden']) ?>
-        <?= $this->Form->submit('Actualizar URL') ?>        
-    <?= $this->Form->end() ?>
-    </div>
+    <?php if ($userRole == 'admin') : ?>
+        <div style="text-align: right">
+            <?= $this->Form->create('Rooms', array('action' => 'updateUrl')) ?>
+                <?= $this->Form->input('room_id', ['value' => $room->id,'type' => 'hidden']) ?>
+                <?= $this->Form->submit('Actualizar URL') ?>        
+            <?= $this->Form->end() ?>
+        </div>
+    <?php endif ?>
 
     <div class="related">
         <h4><?= __('Related Logs') ?></h4>

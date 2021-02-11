@@ -12,6 +12,15 @@ use App\Controller\AppController;
  */
 class LogsController extends AppController
 {
+
+    public function isAuthorized($user)
+    {
+        if ($user['role'] == 'user' && in_array($this->request->getParam('action'), ['index'])) {
+            return true;
+        }
+        return parent::isAuthorized($user);
+    }
+
     /**
      * Index method
      *
@@ -19,14 +28,39 @@ class LogsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Buildings', 'Rooms', 'Staffs', 'Actions'],
-            
-        ];
-        $this->paginate['order'] = ['timestamp' => 'DESC'];
-        $logs = $this->paginate($this->Logs);
-        $this->set(compact('logs'));
-
+        $userRole = $this->Auth->user('role');
+        if($userRole == 'admin') {
+            $this->paginate = [
+                'contain' => ['Buildings', 'Rooms', 'Staffs', 'Actions'],
+                
+            ];
+            $this->paginate['order'] = ['timestamp' => 'DESC'];
+            $logs = $this->paginate($this->Logs);
+            $this->set(compact('logs'));
+        }
+        if($userRole == 'user') {
+            $log = $this->Logs->find('all')
+            ->join([
+                'Buildings' => [
+                    'table' => 'buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'Logs.building_id = Buildings.id',
+                ],
+                'UserBuilding' => [
+                    'table' => 'user_buildings',
+                    'type' => 'INNER',
+                    'conditions' => 'UserBuilding.building_id = Buildings.id',
+                ],
+            ])
+            ->where([
+                'UserBuilding.user_id' => $this->Auth->user('id')
+            ]);
+            $this->paginate = [
+                'contain' => ['Buildings', 'Rooms', 'Staffs', 'Actions'],
+            ];
+            $logs = $this->paginate($log);
+            $this->set(compact('logs'));
+        }
     }
 
     /**

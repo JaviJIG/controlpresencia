@@ -47,6 +47,8 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
+            'authorize' => ['Controller'],
+            'authError' => 'No tienes permiso suficiente para acceder a este apartado.',
             'loginRedirect' => [
                 'controller' => 'buildings',
                 'action' => 'index'
@@ -71,9 +73,17 @@ class AppController extends Controller
         $baseUrl = Configure::read('Url.Base');
         $ajaxUrl = Configure::read('Url.Ajax');
         $this->set(compact('userName', 'userRole', 'baseUrl', 'ajaxUrl'));
-        if ($this->Auth->user('role') == 'admin') {
-            $this->Auth->allow([]);
+    }
+
+    public function isAuthorized($user)
+    {
+        // Admin can access every action
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
         }
+
+        // Default deny
+        return false;
     }
 
     public function generaUrl(){

@@ -20,7 +20,9 @@ class UsersController extends AppController
 
      public function index()
      {
-        $this->set('users', $this->Users->find('all'));
+        $users = $this->paginate($this->Users);
+
+        $this->set(compact('users'));
     }
 
     public function view($id)
@@ -38,7 +40,6 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->getData();
-            $data['role'] = 'admin';
             $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
